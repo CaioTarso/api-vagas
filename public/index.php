@@ -27,12 +27,12 @@ $vagasRoutes($app, $pdo);
 $pessoasRoutes = require __DIR__ . '/../src/Routes/pessoasRoutes.php';
 $pessoasRoutes($app, $pdo);
 
-// $candidaturasRoutes = require __DIR__ . '/../src/Routes/candidaturasRoutes.php';
-// $candidaturasRoutes($app, $pdo);
+$candidaturasRoutes = require __DIR__ . '/../src/Routes/candidaturasRoutes.php';
+$candidaturasRoutes($app, $pdo);
 
 
 $app->get('/', function (Request $request, Response $response) {
-    $payload = json_encode(['message' => 'API de Vagas está no ar! Acesse os endpoints corretos.', 'endpoints' => ['/vagas (POST)', '/vagas/{id}/candidaturas/ranking (GET)' , '/pessoas (POST)']]);
+    $payload = json_encode(['message' => 'API de Vagas está no ar! Acesse os endpoints corretos.', 'endpoints' => ['/vagas (POST)', '/vagas/{id}/candidaturas/ranking (GET)' , '/pessoas (POST)', '/candidaturas (POST)']]);
     $response->getBody()->write($payload);
     return $response->withHeader('Content-Type', 'application/json');
 });
