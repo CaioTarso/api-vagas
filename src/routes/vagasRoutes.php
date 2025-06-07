@@ -3,9 +3,9 @@ use Slim\App;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-use App\Controllers\VagaController;
+use App\controllers\VagaController;
 use App\Repositories\VagaRepository; 
-use App\Utils\DistanceCalculator;
+use App\utils\DistanceCalculator;
 
 
 // A função agora aceita $app e a conexão $pdo, que é passada pelo index.php

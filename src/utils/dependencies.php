@@ -3,7 +3,7 @@
       static $pdo = null;
       if ($pdo === null) {
         $host = '127.0.0.1';
-        $db = 'PDO';
+        $db = 'api_vagas';
         $user = 'root';
         $pass = '';
         $charset = 'utf8mb4';

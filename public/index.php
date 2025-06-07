@@ -21,10 +21,13 @@ try {
 $app->addErrorMiddleware(true, true, true);
 $app->addBodyParsingMiddleware();
 
-$vagasRoutes = require __DIR__ . '/../src/Routes/vagasRoutes.php';
+$vagasRoutes = require __DIR__ . '/../src/routes/vagasRoutes.php';
 $vagasRoutes($app, $pdo); 
 
-$pessoasRoutes = require __DIR__ . '/../src/Routes/pessoasRoutes.php';
+$candidaturasRoutes = require __DIR__ . '/../src/routes/candidaturasRoutes.php';
+$candidaturasRoutes($app, $pdo);
+
+$pessoasRoutes = require __DIR__ . '/../src/routes/pessoasRoutes.php';
 $pessoasRoutes($app, $pdo);
 
 // $candidaturasRoutes = require __DIR__ . '/../src/Routes/candidaturasRoutes.php';

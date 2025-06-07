@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Utils\DistanceCalculator;
 use App\Repositories\VagaRepository;
-use App\Models\Vaga;
+use App\models\Vaga;
 use PDOException;
 
 class VagaController {

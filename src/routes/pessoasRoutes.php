@@ -3,7 +3,7 @@
 use Slim\App;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use App\Controllers\PessoaController;
+use App\controllers\PessoaController;
 use App\Repositories\PessoaRepository;
 
 return function (App $app, PDO $pdo) {
