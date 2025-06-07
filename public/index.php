@@ -11,7 +11,7 @@ $app = AppFactory::create();
 
 // conexão PDO
 try {
-    $pdo = getPDOConnection(); 
+    $pdo = Database::getConnection();
 } catch (\PDOException $e) {
 
     error_log("Erro de conexão PDO no index.php: " . $e->getMessage());
