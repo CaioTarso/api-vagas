@@ -72,7 +72,8 @@ class VagaController {
             return $this->emptyResponse($response, 422);
         }
         
-        $nivel = (int)$data['nivel']; // Nível já validado como int e no range
+        // Nível já validado como int e no range
+        $nivel = (int)$data['nivel']; 
 
         try {
             if ($this->vagaRepository->findById($data['id'])) {
