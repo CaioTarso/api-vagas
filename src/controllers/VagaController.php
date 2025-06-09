@@ -126,7 +126,7 @@ class VagaController {
         $id_vaga = $args['id'] ?? ($args['id_vaga'] ?? null);
 
         if (!$id_vaga || !$this->validarUUID($id_vaga)) {
-             return $this->emptyResponse($response, 400);
+             return $this->emptyResponse($response, 404);
         }
 
         $vagaDetails = $this->vagaRepository->getVagaDetailsForRanking($id_vaga);
@@ -139,6 +139,10 @@ class VagaController {
         $vagaNivel = (int)$vagaDetails['nivel'];
 
         $candidatos = $this->vagaRepository->getCandidatosForRanking($id_vaga);
+
+        if (empty($candidatos)) {
+            return $this->emptyResponse($response, 404);
+        }
         $candidatosRanqueados = [];
 
         foreach ($candidatos as $candidato) {

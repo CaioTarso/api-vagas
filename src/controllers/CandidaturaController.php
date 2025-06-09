@@ -5,14 +5,24 @@ namespace App\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Repositories\CandidaturaRepository;
+use App\Repositories\PessoaRepository;
+use App\Repositories\VagaRepository;
 use App\models\Candidatura;
 use PDOException;
 
 class CandidaturaController {
     private CandidaturaRepository $candidaturaRepository;
+    private PessoaRepository $pessoaRepository;
+    private VagaRepository $vagaRepository;
 
-    public function __construct(CandidaturaRepository $candidaturaRepository) {
+    public function __construct(
+        CandidaturaRepository $candidaturaRepository,
+        PessoaRepository $pessoaRepository,
+        VagaRepository $vagaRepository
+    ) {
         $this->candidaturaRepository = $candidaturaRepository;
+        $this->pessoaRepository = $pessoaRepository;
+        $this->vagaRepository = $vagaRepository;
     }
 
     private function emptyResponse(Response $response, int $statusCode): Response {
@@ -42,14 +52,25 @@ class CandidaturaController {
 
         $requiredFields = ['id', 'id_vaga', 'id_pessoa'];
         if (!$this->validarCamposObrigatorios($data, $requiredFields)) {
-            return $this->emptyResponse($response, 422);
+            return $this->emptyResponse($response, 400);
         }
 
         if (!$this->validarUUID($data['id']) || !$this->validarUUID($data['id_vaga']) || !$this->validarUUID($data['id_pessoa'])) {
             return $this->emptyResponse($response, 422);
         }
 
+
         try {
+        // Verifica se a pessoa existe
+            if (!$this->pessoaRepository->findById($data['id_pessoa'])) {
+                return $response->withStatus(404);  // Not Found - pessoa não encontrada
+            }
+
+            // Verifica se a vaga existe
+            if (!$this->vagaRepository->findById($data['id_vaga'])) {
+                return $response->withStatus(404);  // Not Found - vaga não encontrada
+            }
+
             $candidatura = new Candidatura(
                 $data['id'],
                 $data['id_vaga'],
@@ -57,14 +78,12 @@ class CandidaturaController {
             );
 
             if ($this->candidaturaRepository->create($candidatura)) {
-                $response->getBody()->write(json_encode(['message' => 'Candidatura criada com sucesso']));
-                return $response->withHeader('Content-Type', 'application/json')
-                            ->withStatus(201);
+                return $response->withStatus(201);  // Created - candidatura aceita
             }
 
-            return $this->emptyResponse($response, 500);
+            return $response->withStatus(500);  // Internal Server Error
         } catch (PDOException $e) {
-            return $this->emptyResponse($response, 500);
+            return $response->withStatus(500);  // Internal Server Error
         }
     }
 }
